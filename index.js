@@ -177,7 +177,7 @@ const timer = () => {
     timePassed++;
     document.getElementById('timeLeft').textContent = timePassed;
     // timePassed === 5 && !powerupUsed
-    if (timePassed % 5 === 0 && timePassed !== 0) {
+    if (timePassed % 20 === 0 && timePassed !== 0) {
       powerup();
     }
     if (timePassed === levels[selectedLevel].time + 1) {
