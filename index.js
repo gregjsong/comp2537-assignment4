@@ -126,6 +126,7 @@ const setup = () => {
 
 const onStart = async () => {
   document.getElementById('game-content').classList.remove('hidden');
+  document.getElementById('start-btn').classList.add('invisible');
   let grid = document.getElementById('game_grid');
   let pokeArr = await createPokeArray(levels[selectedLevel].pairs);
 
