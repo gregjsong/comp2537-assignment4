@@ -76,54 +76,52 @@ const setup = () => {
   // let firstCard = undefined
   // let secondCard = undefined
 
-  $(".card").on(("click"), clickHandler);
-}
-
-function clickHandler() {
-  $(this).toggleClass("flip");
-  updateClicks();
-  if (!firstCard) {
-    firstCard = $(this).find(".front_face")[0];
-    // turn off click for first card
-    $(`#${firstCard.id}`).parent().off("click");
-  }
-  else {
-    // turn off all other clicks
-    $(".card").off("click");
-    //
-    secondCard = $(this).find(".front_face")[0];
-    // turn off all other clicks
-    console.log(firstCard, secondCard);
-    if (
-      firstCard.src
-      ===
-      secondCard.src
-    ) {
-      console.log("match");
-      $(`#${firstCard.id}`).parent().addClass('matched');
-      $(`#${secondCard.id}`).parent().addClass('matched');
-      $('.card:not(.matched)').on("click", clickHandler);
-      firstCard = undefined;
-      secondCard = undefined;
-      updatePairs();
-      setTimeout(() => {
-        if (pairsFound == levels[selectedLevel].pairs) {
-          alert("You win");
-        };
-      }, 1000);
-    } else {
-      console.log("no match");
-      setTimeout(() => {
-        // flip
-        $(`#${firstCard.id}`).parent().toggleClass("flip");
-        $(`#${secondCard.id}`).parent().toggleClass("flip");
-        // reset
+  $(".card").on(("click"), function clickHandler() {
+    $(this).toggleClass("flip");
+    updateClicks();
+    if (!firstCard) {
+      firstCard = $(this).find(".front_face")[0];
+      // turn off click for first card
+      $(`#${firstCard.id}`).parent().off("click");
+    }
+    else {
+      // turn off all other clicks
+      $(".card").off("click");
+      //
+      secondCard = $(this).find(".front_face")[0];
+      // turn off all other clicks
+      console.log(firstCard, secondCard);
+      if (
+        firstCard.src
+        ===
+        secondCard.src
+      ) {
+        console.log("match");
+        $(`#${firstCard.id}`).parent().addClass('matched');
+        $(`#${secondCard.id}`).parent().addClass('matched');
         $('.card:not(.matched)').on("click", clickHandler);
         firstCard = undefined;
         secondCard = undefined;
-      }, 1000);
+        updatePairs();
+        setTimeout(() => {
+          if (pairsFound == levels[selectedLevel].pairs) {
+            alert("You win");
+          };
+        }, 1000);
+      } else {
+        console.log("no match");
+        setTimeout(() => {
+          // flip
+          $(`#${firstCard.id}`).parent().toggleClass("flip");
+          $(`#${secondCard.id}`).parent().toggleClass("flip");
+          // reset
+          $('.card:not(.matched)').on("click", clickHandler);
+          firstCard = undefined;
+          secondCard = undefined;
+        }, 1000);
+      }
     }
-  }
+  });
 }
 
 const onStart = async () => {
@@ -193,13 +191,9 @@ const powerup = () => {
   $('.card:not(.matched):not(.flip)').toggleClass('flip');
   powerupTimer = setTimeout(() => {
     $('.card:not(.matched).flip').toggleClass('flip');
+    $(`#${firstCard.id}`).parent().toggleClass('flip');
     powerupUsed = false;
   }, 1000);
-
-  $(`#${firstCard.id}`).parent().on("click", clickHandler);
-  // $(`#${secondCard.id}`).parent().on("click", clickHandler);
-  firstCard = undefined;
-  secondCard = undefined;
 };
 
 const handleLightBtn = () => {
