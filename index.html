@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- import jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="index.js"></script>
+</head>
+
+<body>
+  <div class="menu">
+    <div class="btn-group m-2" role="group" aria-label="levels" data-toggle="buttons">
+      <button type="button" class="btn btn-primary" value="easy">Easy</button>
+      <button type="button" class="btn btn-primary" value="medium">Medium</button>
+      <button type="button" class="btn btn-primary" value="hard">Hard</button>
+    </div>
+    <div class="m-2 buttons">
+      <a href="/"><button class="reset btn-primary btn">Reset</button></a>
+      <button class="start btn btn-primary" onclick="onStart()">Start</button>
+    </div>
+  </div>
+  <div class="hidden" id="game-content">
+    <section class="info">
+      <h1>Total Number of Pairs:<span id="total"></span></h1>
+      <h1>Number of Matched Pairs: <span id="matches"></span></h1>
+      <h1>Number of Pairs left: <span id="left"></span></h1>
+      <h1>Number of Clicks: <span id="clicks"></span></h1>
+      <h1>You got <span id="timeTotal"></span> seconds. <span id="timeLeft"></span> seconds passed!</h1>
+    </section>
+    <div id="game_grid"></div>
+    <div class="btn-group m-2" role="group" aria-label="levels" data-toggle="buttons">
+      <button type="button" class="btn btn-light" id="light-btn" onclick="handleLightBtn()">Light</button>
+      <button type="button" class="btn btn-dark" id="dark-btn" onclick="handleDarkBtn()">Dark</button>
+    </div>
+  </div>
+</body>
+
+</html>
