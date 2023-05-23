@@ -63,6 +63,9 @@ const createPokeArray = async (numPairs) => {
   return shuffleArray(array);
 }
 
+let firstCard = undefined
+let secondCard = undefined
+
 const setup = () => {
   $('.btn-group .btn').on('click', function() {
     selectedLevel = $(this).val();
@@ -70,55 +73,57 @@ const setup = () => {
   });
 
   /* setup */
-  let firstCard = undefined
-  let secondCard = undefined
+  // let firstCard = undefined
+  // let secondCard = undefined
 
-  $(".card").on(("click"), function clickHandler() {
-    $(this).toggleClass("flip");
-    updateClicks();
-    if (!firstCard) {
-      firstCard = $(this).find(".front_face")[0];
-      // turn off click for first card
-      $(`#${firstCard.id}`).parent().off("click");
-    }
-    else {
-      // turn off all other clicks
-      $(".card").off("click");
-      //
-      secondCard = $(this).find(".front_face")[0];
-      // turn off all other clicks
-      console.log(firstCard, secondCard);
-      if (
-        firstCard.src
-        ===
-        secondCard.src
-      ) {
-        console.log("match");
-        $(`#${firstCard.id}`).addClass('matched');
-        $(`#${secondCard.id}`).addClass('matched');
+  $(".card").on(("click"), clickHandler);
+}
+
+function clickHandler() {
+  $(this).toggleClass("flip");
+  updateClicks();
+  if (!firstCard) {
+    firstCard = $(this).find(".front_face")[0];
+    // turn off click for first card
+    $(`#${firstCard.id}`).parent().off("click");
+  }
+  else {
+    // turn off all other clicks
+    $(".card").off("click");
+    //
+    secondCard = $(this).find(".front_face")[0];
+    // turn off all other clicks
+    console.log(firstCard, secondCard);
+    if (
+      firstCard.src
+      ===
+      secondCard.src
+    ) {
+      console.log("match");
+      $(`#${firstCard.id}`).parent().addClass('matched');
+      $(`#${secondCard.id}`).parent().addClass('matched');
+      $('.card:not(.matched)').on("click", clickHandler);
+      firstCard = undefined;
+      secondCard = undefined;
+      updatePairs();
+      setTimeout(() => {
+        if (pairsFound == levels[selectedLevel].pairs) {
+          alert("You win");
+        };
+      }, 1000);
+    } else {
+      console.log("no match");
+      setTimeout(() => {
+        // flip
+        $(`#${firstCard.id}`).parent().toggleClass("flip");
+        $(`#${secondCard.id}`).parent().toggleClass("flip");
+        // reset
         $('.card:not(.matched)').on("click", clickHandler);
         firstCard = undefined;
         secondCard = undefined;
-        updatePairs();
-        setTimeout(() => {
-          if (pairsFound == levels[selectedLevel].pairs) {
-            alert("You win");
-          };
-        }, 1000);
-      } else {
-        console.log("no match");
-        setTimeout(() => {
-          // flip
-          $(`#${firstCard.id}`).parent().toggleClass("flip");
-          $(`#${secondCard.id}`).parent().toggleClass("flip");
-          // reset
-          $('.card:not(.matched)').on("click", clickHandler);
-          firstCard = undefined;
-          secondCard = undefined;
-        }, 1000);
-      }
+      }, 1000);
     }
-  });
+  }
 }
 
 const onStart = async () => {
@@ -172,12 +177,13 @@ const timer = () => {
   const timerInterval = setInterval(() => {
     timePassed++;
     document.getElementById('timeLeft').textContent = timePassed;
-    if (timePassed === 5 && !powerupUsed) {
+    // timePassed === 5 && !powerupUsed
+    if (timePassed % 5 === 0 && timePassed !== 0) {
       powerup();
     }
     if (timePassed === levels[selectedLevel].time + 1) {
       clearInterval(timerInterval);
-      alert('gameover');
+      alert('Gameover');
     }
   }, 1000);
 };
@@ -186,9 +192,14 @@ const powerup = () => {
   powerupUsed = true;
   $('.card:not(.matched):not(.flip)').toggleClass('flip');
   powerupTimer = setTimeout(() => {
-    $('.card:not(.matched)').toggleClass('flip');
+    $('.card:not(.matched).flip').toggleClass('flip');
     powerupUsed = false;
   }, 1000);
+
+  $(`#${firstCard.id}`).parent().on("click", clickHandler);
+  // $(`#${secondCard.id}`).parent().on("click", clickHandler);
+  firstCard = undefined;
+  secondCard = undefined;
 };
 
 const handleLightBtn = () => {
