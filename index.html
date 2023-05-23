@@ -15,7 +15,7 @@
   <script src="index.js"></script>
 </head>
 
-<body>
+<body class="menu">
   <div class="menu">
     <div class="btn-group m-2 buttons" role="group" aria-label="levels" data-toggle="buttons">
       <button type="button" class="btn btn-primary" value="easy">Easy</button>
@@ -36,7 +36,7 @@
       <h1>You got <span id="timeTotal"></span> seconds. <span id="timeLeft"></span> seconds passed!</h1>
     </section>
     <div id="game_grid"></div>
-    <div class="btn-group m-2" role="group" aria-label="levels" data-toggle="buttons">
+    <div class="btn-group m-2 text-center" role="group" aria-label="levels" data-toggle="buttons">
       <button type="button" class="btn btn-light" id="light-btn" onclick="handleLightBtn()">Light</button>
       <button type="button" class="btn btn-dark" id="dark-btn" onclick="handleDarkBtn()">Dark</button>
     </div>
